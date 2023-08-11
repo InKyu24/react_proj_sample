@@ -1,29 +1,55 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 const BbsDetail= () => {
     const [bbs, setBbs] = useState({});
     const { seq } = useParams();
-    const getBbs = () => {
-        axios.get(
-            "http://localhost:3000/bbsdetail", { params: {seq: seq} }
-        ).then((result) => {
-            console.log(result);
-            setBbs(result.data);
-        }).catch((error) => {
-            console.log(error);
-        });
+    const navigate = useNavigate();
+
+    useEffect((seq) => {  
+        const getBbs = (seq) => {
+            axios.get(
+                "http://localhost:3000/bbsdetail", { params: { seq: seq } }
+            ).then((result) => {
+                setBbs(result.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        };
+        getBbs(seq);
+    }, []);
+
+    const handleAnswerBtn = () => {
+        navigate(`/bbsanswer/${seq}`);
     };
 
-    useEffect(() => {
-        getBbs();
-    }, []);
+    const handleModifyBtn = () => {
+        navigate(`/bbsmodify/${seq}`);
+    };
+
+    const handleRemoveBtn = () => {
+        const confirmResult = window.confirm('삭제하시겠습니까?');
+        if(confirmResult)  {
+            const removedBbs = { ...bbs, del: 1 };
+            axios.post("http://localhost:3000/bbsupdate", removedBbs)
+                .then((response) => {
+                if (response.data === "YES") {
+                    navigate("/bbslist");
+                } else {
+                    alert("글쓰기 실패");
+                }
+            }).catch((error) => {
+                console.log(error);
+                alert("글쓰기 실패");
+            });
+        }
+    };
 
     return (
         <div>
             <h1>BbsDetail</h1>
-            <p>조회할 게시물 번호: {seq}</p>
+            <p>조회할 게시물 번호: {bbs.del}</p>
 
             <table className='table table-bordered'>
                 <tbody>
@@ -45,6 +71,13 @@ const BbsDetail= () => {
                     </tr>
                 </tbody>
             </table>
+
+            <div className='d-flex justify-content-end'>
+                <button className='btn btn-primary mx-1' onClick={handleAnswerBtn}>답변</button>
+                <button className='btn btn-primary mx-1' onClick={handleModifyBtn}>수정</button>
+                <button className='btn btn-primary mx-1' onClick={handleRemoveBtn}>삭제</button>
+            </div>
+
         </div>
     );
 }

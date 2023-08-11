@@ -6,12 +6,13 @@ import Header from './layout/Header';
 import Footer from './layout/Footer';
 import BbsWrite from './components/bbs/BbsWrite';
 import BbsDetail from './components/bbs/BbsDetail';
+import BbsAnswer from './components/bbs/BbsAnswer';
+import BbsModify from './components/bbs/BbsModify';
 
 function App() {
   return (
     <div>
       <Header />
-
       <Router>
         <nav className='navbar navbar-expand-md navbar-dark bg-info sticky-top'>
           <div className='container'>
@@ -32,6 +33,8 @@ function App() {
                 <Route path='/bbslist' element={<Bbslist />} />
                 <Route path='/bbswrite' element={<BbsWrite />} />
                 <Route path='/bbsdetail/:seq' element={<BbsDetail />} />
+                <Route path='/bbsanswer/:seq' element={<BbsAnswer />} />
+                <Route path='/bbsmodify/:seq' element={<BbsModify />} />
 
                 <Route path='*' element={<h1>404 Not Found</h1>} />
               </Routes>

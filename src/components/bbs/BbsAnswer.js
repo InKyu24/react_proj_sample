@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const BbsWrite = () => {
+const BbsAnswer = () => {
+    const { seq } = useParams();
     const navigate = useNavigate();
 
+    const [parentBbs, setParentBbs] = useState({});
     const [bbs, setBbs] = useState({
         id: '',
         title: '',
-        content: ''
+        content: '',
+        seq: seq
     });
     const [loading, setLoading] = useState(false);
 
@@ -19,6 +22,19 @@ const BbsWrite = () => {
             [name]: value
         });
     };
+    
+    useEffect((seq) => {
+        const getParentBbs = (seq) => {
+            axios.get(
+                "http://localhost:3000/bbsdetail", { params: { seq: seq } }
+            ).then((result) => {
+                setParentBbs(result.data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        };
+        getParentBbs(seq);
+    }, []);
 
     const validationCheck = () => {
         if (bbs.id.trim() === '') {
@@ -40,15 +56,15 @@ const BbsWrite = () => {
         setLoading(true);
         if (validationCheck()) {
             try {
-                const response = await axios.post("http://localhost:3000/bbswrite", bbs);
+                const response = await axios.get("http://localhost:3000/bbsanswer", { params : bbs });
                 if (response.data === "YES") {
                     navigate("/bbslist");
                 } else {
-                    alert("글쓰기 실패");
+                    alert("답변 작성 실패");
                 }
             } catch (error) {
                 console.log(error);
-                alert("글쓰기 실패");
+                alert("답변 작성 실패");
             } finally {
                 setLoading(false);
             }
@@ -57,7 +73,8 @@ const BbsWrite = () => {
 
     return (
         <div>
-            <h3>게시판 글쓰기</h3>
+            <h1>BbsAnswer</h1>
+            <h3>답변 작성</h3>
             <table className='table table-bordered'>
                 <tbody>
                     <tr>
@@ -70,11 +87,14 @@ const BbsWrite = () => {
                     </tr>
                     <tr>
                         <td>내용</td>
-                        <td><textarea className='form-control' rows='5' onChange={onChange} disabled={loading} name="content" /></td>
+                        <td>
+                            <textarea className='form-control' rows='5' value={parentBbs.content} readOnly></textarea>
+                            <textarea className='form-control' rows='5' onChange={onChange} disabled={loading} name="content"></textarea>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <div className='d-flex justify-content-center'>
+            <div className='d-flex justify-content-end'>
                 <button className='btn btn-primary' onClick={onSubmit} disabled={loading}>
                     {loading ? "저장 중..." : "저장"}
                 </button>
@@ -82,4 +102,5 @@ const BbsWrite = () => {
         </div>
     );
 }
-export default BbsWrite;
+
+export default BbsAnswer;
