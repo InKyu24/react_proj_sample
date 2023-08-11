@@ -27,7 +27,7 @@ const BbsList = () => {
     };
 
     useEffect(() => {
-        const getBbslist = (searchObj, seq) => {
+        const getBbslist = () => {
             axios.get(
                 "http://localhost:3000/bbslist",
                 {
