@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ReactSummernote from "react-summernote";
 import SummerNote from "../SummerNote";
 
 const BbsDetail= () => {
