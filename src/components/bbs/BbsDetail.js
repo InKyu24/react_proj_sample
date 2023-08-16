@@ -1,13 +1,13 @@
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import ReactSummernote from "react-summernote";
 
 const BbsDetail= () => {
     const [bbs, setBbs] = useState({});
     const { seq } = useParams();
     const navigate = useNavigate();
-
-    useEffect((seq) => {  
+    useEffect(() => {  
         const getBbs = (seq) => {
             axios.get(
                 "http://localhost:3000/bbsdetail", { params: { seq: seq } }
@@ -18,7 +18,7 @@ const BbsDetail= () => {
             });
         };
         getBbs(seq);
-    }, []);
+    }, [seq]);
 
     const handleAnswerBtn = () => {
         navigate(`/bbsanswer/${seq}`);
@@ -49,7 +49,7 @@ const BbsDetail= () => {
     return (
         <div>
             <h1>BbsDetail</h1>
-            <p>조회할 게시물 번호: {bbs.del}</p>
+            <p>조회할 게시물 번호: {seq}</p>
 
             <table className='table table-bordered'>
                 <tbody>
@@ -67,7 +67,18 @@ const BbsDetail= () => {
                     </tr>
                     <tr>
                         <td>내용</td>
-                        <td>{bbs.content}</td>
+                        <td>
+                            <ReactSummernote
+                                value={bbs.content}
+                                options={{
+                                    height: 300,
+                                    dialogsInBody: true,
+                                    toolbar: [],
+                                }}
+                                disabled={true}
+                                name="content"
+                            />
+                        </td>
                     </tr>
                 </tbody>
             </table>

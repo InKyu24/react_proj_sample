@@ -47,13 +47,13 @@ const BbsList = () => {
         };
 
         getBbslist();
-    }, [pageNum]);
+    }, [pageNum, searchObj]);
 
 
     return (
         <div>
             <div className='d-flex justify-content-end'>
-                <select className='form-select w-20' onChange={(e) => {
+                <select className='form-select w-auto' onChange={(e) => {
                     setSearchObj({
                         ...searchObj,
                         choice: e.target.value

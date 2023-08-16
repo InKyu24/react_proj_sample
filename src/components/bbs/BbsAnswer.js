@@ -1,29 +1,30 @@
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import ReactSummernote from "react-summernote";
 
 const BbsAnswer = () => {
     const { seq } = useParams();
     const navigate = useNavigate();
 
     const [parentBbs, setParentBbs] = useState({});
-    const [bbs, setBbs] = useState({
-        id: '',
-        title: '',
-        content: '',
-        seq: seq
-    });
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [author, setAuthor] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const onChange = (e) => {
-        const { name, value } = e.target;
-        setBbs({
-            ...bbs,
-            [name]: value
-        });
+    const onAutherChange = (e) => {
+        setAuthor(e.target.value);
     };
-    
-    useEffect((seq) => {
+
+    const onTitleChange = (e) => {
+        setTitle(e.target.value);
+    };
+
+    const onContentChange = (e) => {
+        setContent(e);
+    };
+    useEffect(() => {
         const getParentBbs = (seq) => {
             axios.get(
                 "http://localhost:3000/bbsdetail", { params: { seq: seq } }
@@ -34,18 +35,18 @@ const BbsAnswer = () => {
             });
         };
         getParentBbs(seq);
-    }, []);
+    }, [seq]);
 
     const validationCheck = () => {
-        if (bbs.id.trim() === '') {
+        if (author.trim() === '') {
             alert('작성자를 입력하세요');
             return false;
         }
-        if (bbs.title.trim() === '') {
+        if (title.trim() === '') {
             alert('제목을 입력하세요');
             return false;
         }
-        if (bbs.content.trim() === '') {
+        if (content.trim() === '') {
             alert('내용을 입력하세요');
             return false;
         }
@@ -55,6 +56,12 @@ const BbsAnswer = () => {
     const onSubmit = async () => {
         setLoading(true);
         if (validationCheck()) {
+            let bbs = {
+                id: author,
+                title: title,
+                content: content,
+                seq: seq
+            };
             try {
                 const response = await axios.get("http://localhost:3000/bbsanswer", { params : bbs });
                 if (response.data === "YES") {
@@ -79,17 +86,44 @@ const BbsAnswer = () => {
                 <tbody>
                     <tr>
                         <td>작성자</td>
-                        <td><input type='text' className='form-control' onChange={onChange} disabled={loading} name="id" /></td>
+                        <td><input type='text' className='form-control' onChange={onAutherChange} disabled={loading} name="id" /></td>
                     </tr>
                     <tr>
                         <td>제목</td>
-                        <td><input type='text' className='form-control' onChange={onChange} disabled={loading} name="title" /></td>
+                        <td><input type='text' className='form-control' onChange={onTitleChange} disabled={loading} name="title" /></td>
                     </tr>
                     <tr>
                         <td>내용</td>
                         <td>
-                            <textarea className='form-control' rows='5' value={parentBbs.content} readOnly></textarea>
-                            <textarea className='form-control' rows='5' onChange={onChange} disabled={loading} name="content"></textarea>
+                            <ReactSummernote
+                                value={parentBbs.content}
+                                options={{
+                                    height: 300,
+                                    dialogsInBody: true,
+                                    toolbar: [],
+                                }}
+                                disabled
+                            />
+                            <ReactSummernote
+                                options={{
+                                    placeholder: "내용을 입력하세요",
+                                    height: 300,
+                                    dialogsInBody: true,
+                                    toolbar: [
+                                        ["style", ["style"]],
+                                        ["font", ["bold", "underline", "clear"]],
+                                        ['fontsize', ['fontsize']],
+                                        ["fontname", ["fontname"]],
+                                        ["para", ["ul", "ol", "paragraph"]],
+                                        ["table", ["table"]],
+                                        ["insert", ["link", "picture", "video"]],
+                                        ["view", ["fullscreen", "codeview"]],
+                                    ],
+                                }}
+                                onChange={onContentChange}
+                                disabled={loading}
+                                name="content"
+                            />
                         </td>
                     </tr>
                 </tbody>

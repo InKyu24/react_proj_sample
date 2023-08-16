@@ -1,35 +1,40 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ReactSummernote from "react-summernote";
+
 
 const BbsWrite = () => {
     const navigate = useNavigate();
 
-    const [bbs, setBbs] = useState({
-        id: '',
-        title: '',
-        content: ''
-    });
+    const [author, setAuthor] = useState("");
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+     
     const [loading, setLoading] = useState(false);
 
-    const onChange = (e) => {
-        const { name, value } = e.target;
-        setBbs({
-            ...bbs,
-            [name]: value
-        });
+    const onAuthorChange = (e) => {
+        setAuthor(e.target.value);
     };
 
+    const onTitleChange = (e) => {
+        setTitle(e.target.value);
+    };
+
+    const onContentChange = (e) => {
+        setContent(e);
+    }
+
     const validationCheck = () => {
-        if (bbs.id.trim() === '') {
+        if (author.trim() === '') {
             alert('작성자를 입력하세요');
             return false;
         }
-        if (bbs.title.trim() === '') {
+        if (title.trim() === '') {
             alert('제목을 입력하세요');
             return false;
         }
-        if (bbs.content.trim() === '') {
+        if (content.trim() === '') {
             alert('내용을 입력하세요');
             return false;
         }
@@ -38,6 +43,11 @@ const BbsWrite = () => {
 
     const onSubmit = async () => {
         setLoading(true);
+        let bbs = {
+            id : author,
+            title : title,
+            content : content
+        }
         if (validationCheck()) {
             try {
                 const response = await axios.post("http://localhost:3000/bbswrite", bbs);
@@ -62,15 +72,36 @@ const BbsWrite = () => {
                 <tbody>
                     <tr>
                         <td>작성자</td>
-                        <td><input type='text' className='form-control' onChange={onChange} disabled={loading} name="id" /></td>
+                        <td><input type='text' className='form-control' onChange={onAuthorChange} disabled={loading} name="id" /></td>
                     </tr>
                     <tr>
                         <td>제목</td>
-                        <td><input type='text' className='form-control' onChange={onChange} disabled={loading} name="title" /></td>
+                        <td><input type='text' className='form-control' onChange={onTitleChange} disabled={loading} name="title" /></td>
                     </tr>
                     <tr>
                         <td>내용</td>
-                        <td><textarea className='form-control' rows='5' onChange={onChange} disabled={loading} name="content" /></td>
+                        <td>
+                            <ReactSummernote
+                                options={{
+                                    placeholder: "내용을 입력하세요",
+                                    height: 300,
+                                    dialogsInBody: true,
+                                    toolbar: [
+                                        ["style", ["style"]],
+                                        ["font", ["bold", "underline", "clear"]],
+                                        ['fontsize', ['fontsize']],
+                                        ["fontname", ["fontname"]],
+                                        ["para", ["ul", "ol", "paragraph"]],
+                                        ["table", ["table"]],
+                                        ["insert", ["link", "picture", "video"]],
+                                        ["view", ["fullscreen", "codeview"]],
+                                    ],
+                                }}
+                                onChange={onContentChange}
+                                disabled={loading}
+                                name="content"
+                            />
+                        </td>
                     </tr>
                 </tbody>
             </table>

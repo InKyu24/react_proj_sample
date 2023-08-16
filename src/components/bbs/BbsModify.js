@@ -1,27 +1,32 @@
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import ReactSummernote from "react-summernote";
 
 const BbsModify = () => {
-    const [bbs, setBbs] = useState({
-        id: '',
-        title: '',
-        content: ''
-    });
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [author, setAuthor] = useState('');
     const { seq } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
-    const onChange = (e) => {
-        const { name, value } = e.target;
-        setBbs({
-            ...bbs,
-            [name]: value
-        });
+    const onTitleChange = (e) => {
+        setTitle(e.target.value);
+    };
+
+    const onContentChange = (e) => {
+        setContent(e);
     };
 
     const onSubmit = async () => {
         setLoading(true);
+        let bbs = {
+            seq: seq,
+            id: author,
+            title: title,
+            content: content
+        };
         try {
             const response = await axios.post("http://localhost:3000/bbsupdate", bbs);
             if (response.data === "YES") {
@@ -43,7 +48,11 @@ const BbsModify = () => {
             axios.get(
                 "http://localhost:3000/bbsdetail", { params: { seq: seq } }
             ).then((result) => {
-                setBbs(result.data);
+                console.log(result.data);
+                setTitle(result.data.title);
+                setContent(result.data.content);
+                setAuthor(result.data.id);
+                
             }).catch((error) => {
                 console.log(error);
             });
@@ -58,15 +67,38 @@ const BbsModify = () => {
                 <tbody>
                     <tr>
                         <td>작성자</td>
-                        <td><input type='text' className='form-control' onChange={onChange} disabled name="id" value={bbs.id} /></td>
+                        <td><input type='text' className='form-control' disabled name="id" value={author} /></td>
                     </tr>
                     <tr>
                         <td>제목</td>
-                        <td><input type='text' className='form-control' onChange={onChange} disabled={loading} name="title" value={bbs.title} /></td>
+                        <td><input type='text' className='form-control' onChange={onTitleChange} disabled={loading} name="title" value={title} /></td>
                     </tr>
                     <tr>
                         <td>내용</td>
-                        <td><textarea className='form-control' rows='5' onChange={onChange} disabled={loading} name="content" value={bbs.content} /></td>
+                        <td>
+                            <td>
+                                <ReactSummernote
+                                    value={content}
+                                    options={{
+                                        height: 300,
+                                        dialogsInBody: true,
+                                        toolbar: [
+                                            ["style", ["style"]],
+                                            ["font", ["bold", "underline", "clear"]],
+                                            ['fontsize', ['fontsize']],
+                                            ["fontname", ["fontname"]],
+                                            ["para", ["ul", "ol", "paragraph"]],
+                                            ["table", ["table"]],
+                                            ["insert", ["link", "picture", "video"]],
+                                            ["view", ["fullscreen", "codeview"]],
+                                        ],
+                                    }}
+                                    disabled={loading}
+                                    name="content"
+                                    onChange={onContentChange}
+                                />
+                            </td>
+                        </td>
                     </tr>
                 </tbody>
             </table>
