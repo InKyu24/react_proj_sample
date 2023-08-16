@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ReactSummernote from "react-summernote";
+import SummerNote from './../SummerNote';
 
 const BbsModify = () => {
     const [title, setTitle] = useState('');
@@ -35,7 +36,7 @@ const BbsModify = () => {
                 alert("글수정 실패");
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
             alert("글수정 실패");
         } finally {
             setLoading(false);
@@ -48,13 +49,11 @@ const BbsModify = () => {
             axios.get(
                 "http://localhost:3000/bbsdetail", { params: { seq: seq } }
             ).then((result) => {
-                console.log(result.data);
                 setTitle(result.data.title);
                 setContent(result.data.content);
                 setAuthor(result.data.id);
-                
             }).catch((error) => {
-                console.log(error);
+                console.error(error);
             });
         };
         getBbs(seq);
@@ -75,29 +74,8 @@ const BbsModify = () => {
                     </tr>
                     <tr>
                         <td>내용</td>
-                        <td>
-                            <td>
-                                <ReactSummernote
-                                    value={content}
-                                    options={{
-                                        height: 300,
-                                        dialogsInBody: true,
-                                        toolbar: [
-                                            ["style", ["style"]],
-                                            ["font", ["bold", "underline", "clear"]],
-                                            ['fontsize', ['fontsize']],
-                                            ["fontname", ["fontname"]],
-                                            ["para", ["ul", "ol", "paragraph"]],
-                                            ["table", ["table"]],
-                                            ["insert", ["link", "picture", "video"]],
-                                            ["view", ["fullscreen", "codeview"]],
-                                        ],
-                                    }}
-                                    disabled={loading}
-                                    name="content"
-                                    onChange={onContentChange}
-                                />
-                            </td>
+                        <td>                    
+                            <SummerNote showToolBar={false} disabled={loading} content={content} onChange={onContentChange} />
                         </td>
                     </tr>
                 </tbody>

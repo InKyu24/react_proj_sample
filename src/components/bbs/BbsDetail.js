@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ReactSummernote from "react-summernote";
+import SummerNote from "../SummerNote";
 
 const BbsDetail= () => {
     const [bbs, setBbs] = useState({});
@@ -14,7 +15,7 @@ const BbsDetail= () => {
             ).then((result) => {
                 setBbs(result.data);
             }).catch((error) => {
-                console.log(error);
+                console.error(error);
             });
         };
         getBbs(seq);
@@ -40,7 +41,7 @@ const BbsDetail= () => {
                     alert("글쓰기 실패");
                 }
             }).catch((error) => {
-                console.log(error);
+                console.error(error);
                 alert("글쓰기 실패");
             });
         }
@@ -68,16 +69,7 @@ const BbsDetail= () => {
                     <tr>
                         <td>내용</td>
                         <td>
-                            <ReactSummernote
-                                value={bbs.content}
-                                options={{
-                                    height: 300,
-                                    dialogsInBody: true,
-                                    toolbar: [],
-                                }}
-                                disabled={true}
-                                name="content"
-                            />
+                            <SummerNote showToolBar={false} disabled={true} content={bbs.content} />
                         </td>
                     </tr>
                 </tbody>

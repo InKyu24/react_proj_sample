@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactSummernote from "react-summernote";
+import SummerNote from './../SummerNote';
 
 
 const BbsWrite = () => {
@@ -57,7 +58,7 @@ const BbsWrite = () => {
                     alert("글쓰기 실패");
                 }
             } catch (error) {
-                console.log(error);
+                console.error(error);
                 alert("글쓰기 실패");
             } finally {
                 setLoading(false);
@@ -81,26 +82,7 @@ const BbsWrite = () => {
                     <tr>
                         <td>내용</td>
                         <td>
-                            <ReactSummernote
-                                options={{
-                                    placeholder: "내용을 입력하세요",
-                                    height: 300,
-                                    dialogsInBody: true,
-                                    toolbar: [
-                                        ["style", ["style"]],
-                                        ["font", ["bold", "underline", "clear"]],
-                                        ['fontsize', ['fontsize']],
-                                        ["fontname", ["fontname"]],
-                                        ["para", ["ul", "ol", "paragraph"]],
-                                        ["table", ["table"]],
-                                        ["insert", ["link", "picture", "video"]],
-                                        ["view", ["fullscreen", "codeview"]],
-                                    ],
-                                }}
-                                onChange={onContentChange}
-                                disabled={loading}
-                                name="content"
-                            />
+                            <SummerNote showToolBar={true} onChange={onContentChange} disabled={loading} />
                         </td>
                     </tr>
                 </tbody>

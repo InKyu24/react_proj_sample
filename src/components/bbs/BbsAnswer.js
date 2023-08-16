@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ReactSummernote from "react-summernote";
+import SummerNote from "../SummerNote";
 
 const BbsAnswer = () => {
     const { seq } = useParams();
@@ -31,7 +32,7 @@ const BbsAnswer = () => {
             ).then((result) => {
                 setParentBbs(result.data);
             }).catch((error) => {
-                console.log(error);
+                console.error(error);
             });
         };
         getParentBbs(seq);
@@ -70,7 +71,7 @@ const BbsAnswer = () => {
                     alert("답변 작성 실패");
                 }
             } catch (error) {
-                console.log(error);
+                console.error(error);
                 alert("답변 작성 실패");
             } finally {
                 setLoading(false);
@@ -95,35 +96,8 @@ const BbsAnswer = () => {
                     <tr>
                         <td>내용</td>
                         <td>
-                            <ReactSummernote
-                                value={parentBbs.content}
-                                options={{
-                                    height: 300,
-                                    dialogsInBody: true,
-                                    toolbar: [],
-                                }}
-                                disabled
-                            />
-                            <ReactSummernote
-                                options={{
-                                    placeholder: "내용을 입력하세요",
-                                    height: 300,
-                                    dialogsInBody: true,
-                                    toolbar: [
-                                        ["style", ["style"]],
-                                        ["font", ["bold", "underline", "clear"]],
-                                        ['fontsize', ['fontsize']],
-                                        ["fontname", ["fontname"]],
-                                        ["para", ["ul", "ol", "paragraph"]],
-                                        ["table", ["table"]],
-                                        ["insert", ["link", "picture", "video"]],
-                                        ["view", ["fullscreen", "codeview"]],
-                                    ],
-                                }}
-                                onChange={onContentChange}
-                                disabled={loading}
-                                name="content"
-                            />
+                            <SummerNote showToolBar={false} disabled={true} content={parentBbs.content} />
+                            <SummerNote showToolBar={true} disabled={loading} onContentChange={onContentChange}/>
                         </td>
                     </tr>
                 </tbody>

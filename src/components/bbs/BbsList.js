@@ -18,7 +18,6 @@ const BbsList = () => {
     };
 
     const searchBtnHandler = () => {
-        console.log(searchObj);
         if (searchObj.choice === '' || searchObj.search.trim() === '') {
             alert('검색 조건을 선택해주세요.');
             return;
@@ -42,7 +41,7 @@ const BbsList = () => {
                     setBbslist(result.data.bbslist);
                     setTotalPosts(result.data.cnt);
                 }).catch((error) => {
-                    console.log(error);
+                    console.error(error);
                 });
         };
 
