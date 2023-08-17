@@ -1,13 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './components/Home';
 import './layout.css';
-import Bbslist from './components/bbs/BbsList';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
-import BbsWrite from './components/bbs/BbsWrite';
-import BbsDetail from './components/bbs/BbsDetail';
-import BbsAnswer from './components/bbs/BbsAnswer';
-import BbsModify from './components/bbs/BbsModify';
+import { BbsWrite, BbsDetail, BbsAnswer, BbsModify, Bbslist } from './components/bbs';
 import SummerNote from './components/SummerNote';
 import PostCode from './components/PostCode';
 import "react-summernote/dist/react-summernote.css"; // import style
