@@ -74,7 +74,7 @@ const BbsModify = () => {
                     <tr>
                         <td>내용</td>
                         <td>                    
-                            <SummerNote showToolBar={false} disabled={loading} content={content} onChange={onContentChange} />
+                            <SummerNote showToolBar={true} disabled={loading} content={content} onChange={onContentChange} />
                         </td>
                     </tr>
                 </tbody>
