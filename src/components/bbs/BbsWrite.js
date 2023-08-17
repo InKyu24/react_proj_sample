@@ -50,7 +50,7 @@ const BbsWrite = () => {
         }
         if (validationCheck()) {
             try {
-                const response = await axios.post("http://localhost:3000/bbswrite", bbs);
+                const response = await axios.post(process.env.REACT_APP_BACKEND_SERVER+"/bbswrite", bbs);
                 if (response.data === "YES") {
                     navigate("/bbslist");
                 } else {

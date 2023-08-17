@@ -10,7 +10,7 @@ const BbsDetail= () => {
     useEffect(() => {  
         const getBbs = (seq) => {
             axios.get(
-                "http://localhost:3000/bbsdetail", { params: { seq: seq } }
+                process.env.REACT_APP_BACKEND_SERVER+"/bbsdetail", { params: { seq: seq } }
             ).then((result) => {
                 setBbs(result.data);
             }).catch((error) => {
@@ -32,7 +32,7 @@ const BbsDetail= () => {
         const confirmResult = window.confirm('삭제하시겠습니까?');
         if(confirmResult)  {
             const removedBbs = { ...bbs, del: 1 };
-            axios.post("http://localhost:3000/bbsupdate", removedBbs)
+            axios.post(process.env.REACT_APP_BACKEND_SERVER+"/bbsupdate", removedBbs)
                 .then((response) => {
                 if (response.data === "YES") {
                     navigate("/bbslist");

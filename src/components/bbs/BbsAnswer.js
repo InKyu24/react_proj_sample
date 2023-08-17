@@ -27,7 +27,7 @@ const BbsAnswer = () => {
     useEffect(() => {
         const getParentBbs = (seq) => {
             axios.get(
-                "http://localhost:3000/bbsdetail", { params: { seq: seq } }
+                process.env.REACT_APP_BACKEND_SERVER+"/bbsdetail", { params: { seq: seq } }
             ).then((result) => {
                 setParentBbs(result.data);
             }).catch((error) => {
@@ -63,7 +63,7 @@ const BbsAnswer = () => {
                 seq: seq
             };
             try {
-                const response = await axios.get("http://localhost:3000/bbsanswer", { params : bbs });
+                const response = await axios.get(process.env.REACT_APP_BACKEND_SERVER +"/bbsanswer", { params : bbs });
                 if (response.data === "YES") {
                     navigate("/bbslist");
                 } else {

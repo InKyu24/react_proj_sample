@@ -28,7 +28,7 @@ const BbsList = () => {
     useEffect(() => {
         const getBbslist = () => {
             axios.get(
-                "http://localhost:3000/bbslist",
+                process.env.REACT_APP_BACKEND_SERVER+"/bbslist",
                 {
                     params: {
                         choice: searchObj.choice,

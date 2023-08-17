@@ -28,7 +28,7 @@ const BbsModify = () => {
             content: content
         };
         try {
-            const response = await axios.post("http://localhost:3000/bbsupdate", bbs);
+            const response = await axios.post(process.env.REACT_APP_BACKEND_SERVER+"/bbsupdate", bbs);
             if (response.data === "YES") {
                 navigate("/bbslist");
             } else {
@@ -46,7 +46,7 @@ const BbsModify = () => {
     useEffect(() => {
         const getBbs = (seq) => {
             axios.get(
-                "http://localhost:3000/bbsdetail", { params: { seq: seq } }
+                process.env.REACT_APP_BACKEND_SERVER+"/bbsdetail", { params: { seq: seq } }
             ).then((result) => {
                 setTitle(result.data.title);
                 setContent(result.data.content);

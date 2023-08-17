@@ -3,7 +3,7 @@ import Home from './components/Home';
 import './layout.css';
 import Header from './layout/Header';
 import Footer from './layout/Footer';
-import { BbsWrite, BbsDetail, BbsAnswer, BbsModify, Bbslist } from './components/bbs';
+import { BbsWrite, BbsDetail, BbsAnswer, BbsModify, BbsList } from './components/bbs';
 import SummerNote from './components/SummerNote';
 import PostCode from './components/PostCode';
 import "react-summernote/dist/react-summernote.css"; // import style
@@ -13,7 +13,8 @@ import "bootstrap/js/dist/modal.js";
 import "bootstrap/dist/css/bootstrap.css";
 import "jquery";
 import "popper.js";
-import Stt from './components/naver/Stt';
+import Csr from './components/naver/Csr';
+import Cfr from './components/naver/Cfr';
 
 function App() {
   return (
@@ -25,34 +26,33 @@ function App() {
             <div className="collapse navbar-collapse" id="navbar-content">
               <ul className='navbar-nav mr-auto'>
                 <li className='nav-item'><Link className='nav-link' to='/'>Home</Link></li>
-                <li className='nav-item'><Link className='nav-link' to='/bbslist'>게시판</Link></li>
+                <li className='nav-item'><Link className='nav-link' to='/Bbslist'>게시판</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/summer'>써머노트 연습</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/post'>POST CODE</Link></li>
-                <li className='nav-item'><Link className='nav-link' to='/stt'>STT</Link></li>
+                <li className='nav-item'><Link className='nav-link' to='/csr'>CSR(stt)</Link></li>
+                <li className='nav-item'><Link className='nav-link' to='/cfr'>CFR</Link></li>
               </ul>
             </div>
           </div>
         </nav>
-        <main>
-          <div className='py-4'>
-            <div className='container'>
-              <Routes>
-                <Route path='/' element={<Home />} />
+        <main className="container">
+          <Routes>
+            <Route path='/' element={<Home />} />
 
-                <Route path='/bbslist' element={<Bbslist />} />
-                <Route path='/bbswrite' element={<BbsWrite />} />
-                <Route path='/bbsdetail/:seq' element={<BbsDetail />} />
-                <Route path='/bbsanswer/:seq' element={<BbsAnswer />} />
-                <Route path='/bbsmodify/:seq' element={<BbsModify />} />
+            <Route path='/bbslist' element={<BbsList />} />
+            <Route path='/bbswrite' element={<BbsWrite />} />
+            <Route path='/bbsdetail/:seq' element={<BbsDetail />} />
+            <Route path='/bbsanswer/:seq' element={<BbsAnswer />} />
+            <Route path='/bbsmodify/:seq' element={<BbsModify />} />
 
-                <Route path='/summer' element={<SummerNote />} />
-                <Route path='/post' element={<PostCode />} />
+            <Route path='/summer' element={<SummerNote />} />
+            <Route path='/post' element={<PostCode />} />
 
-                <Route path='/stt' element={<Stt />} />
-                <Route path='*' element={<h1>404 Not Found</h1>} />
-              </Routes>
-            </div>
-          </div>
+            <Route path='/csr' element={<Csr />} />
+            <Route path='/cfr' element={<Cfr />} />
+            
+            <Route path='*' element={<h1>404 Not Found</h1>} />
+          </Routes>
         </main>
       </Router>
       <Footer />
@@ -60,4 +60,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
