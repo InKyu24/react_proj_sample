@@ -15,6 +15,7 @@ import "jquery";
 import "popper.js";
 import Csr from './components/naver/Csr';
 import Cfr from './components/naver/Cfr';
+import AxiosTest from './components/AxiosTest';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <div className="collapse navbar-collapse" id="navbar-content">
               <ul className='navbar-nav mr-auto'>
                 <li className='nav-item'><Link className='nav-link' to='/'>Home</Link></li>
+                <li className='nav-item'><Link className='nav-link' to='/axios'>axios Test</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/Bbslist'>게시판</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/summer'>써머노트 연습</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/post'>POST CODE</Link></li>
@@ -38,6 +40,8 @@ function App() {
         <main className="container">
           <Routes>
             <Route path='/' element={<Home />} />
+
+            <Route path='/axios' element={<AxiosTest />} />
 
             <Route path='/bbslist' element={<BbsList />} />
             <Route path='/bbswrite' element={<BbsWrite />} />
