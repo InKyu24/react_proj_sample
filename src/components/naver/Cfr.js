@@ -10,6 +10,10 @@ function Cfr() {
         setSelect(e.target.value);
     }
     const webcamRef = useRef(null);
+    
+    const showCam = () => {
+        setResp('');
+    }
 
     const getPicture = async () => {
         const imageSrc = webcamRef.current.getScreenshot();
@@ -19,18 +23,18 @@ function Cfr() {
     }
     const onSubmit = (e) => {
         e.preventDefault();
-
         let formData = new FormData();
         getPicture().then(blob => {
             console.log(blob);
             formData.append('uploadFile', blob, 'captured.jpg');
             formData.append('select', select);
+            setResp('결과 : ');
             return formData;
         }).then(formData => {
-            axios.post(process.env.REACT_APP_BACKEND_SERVER + '/fileUploadCFR', formData)
+            axios.post(process.env.REACT_APP_BACKEND_SERVER + '/fileUpload', formData)
                 .then(res => {
                     console.log(res);
-                    setResp('결과 : ' + res.data.text);
+                    setResp('결과 : ' + res);
                 }).catch(err => {
                     console.error(err);
                     alert('error');
@@ -50,14 +54,19 @@ function Cfr() {
                     <option value="face">얼굴 감지</option>
                 </select>
                 <button className="btn btn-lg btn-dark ml-5" type='submit'>Capture</button>
-                <br />
-                {resp || 
-                    <Webcam
-                        audio={false}
-                        ref={webcamRef}
-                        screenshotFormat="image/jpeg"
-                    />
+                {resp === ''? 
+                    <>
+                        <br />
+                        <Webcam
+                            audio={false}
+                            ref={webcamRef}
+                            screenshotFormat="image/jpeg"
+                        />
+                    </>
+                    :
+                    <button className="btn btn-lg btn-dark ml-5" type='button' onClick={showCam}>카메라 보기</button>
                 }
+                
             </form>
         </div>
     );
