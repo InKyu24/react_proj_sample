@@ -11,7 +11,7 @@ function Csr() {
         formData.append('uploadFile', document.frm.uploadFile.files[0]);
 
         //send
-        axios.post(process.env.REACT_APP_BACKEND_SERVER+'/fileUpload', formData)
+        axios.post(process.env.REACT_APP_BACKEND_SERVER +'/naver/csr', formData)
             .then(res => {
                 console.log(res);
                 setResp(res.data.text);

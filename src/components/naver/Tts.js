@@ -6,7 +6,7 @@ function Tts() {
     const [audioUrl, setAudioUrl] = useState('');
 
     const handleGetSpeech = () => {
-        axios.post(process.env.REACT_APP_BACKEND_SERVER + '/tts', null, {
+        axios.post(process.env.REACT_APP_BACKEND_SERVER + '/naver/tts', null, {
             params: { message: text },
             responseType: 'blob'
         }).then(res => {

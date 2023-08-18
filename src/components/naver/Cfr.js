@@ -7,6 +7,7 @@ function Cfr() {
     const [resp, setResp] = useState('');
 
     const selectHandler = (e) => {
+        setResp('');
         setSelect(e.target.value);
     }
     const webcamRef = useRef(null);
@@ -25,16 +26,23 @@ function Cfr() {
         e.preventDefault();
         let formData = new FormData();
         getPicture().then(blob => {
-            console.log(blob);
             formData.append('uploadFile', blob, 'captured.jpg');
             formData.append('select', select);
-            setResp('결과 : ');
             return formData;
         }).then(formData => {
-            axios.post(process.env.REACT_APP_BACKEND_SERVER + '/fileUpload', formData)
+            axios.post(process.env.REACT_APP_BACKEND_SERVER + '/naver/cfr', formData)
                 .then(res => {
                     console.log(res);
-                    setResp('결과 : ' + res);
+                    if (select === 'celebrity') {
+                        const name = res.data.faces[0].celebrity.value;
+                        const confidence = res.data.faces[0].celebrity.confidence;
+                        setResp('결과 : ' + name + ' / ' + Math.round(+confidence*100) + '%');
+                    } else {
+                        const age = res.data.faces[0].age.value;
+                        const gender = res.data.faces[0].gender.value;
+                        setResp('결과 : ' + age + ' / ' + gender);
+                    }
+                    
                 }).catch(err => {
                     console.error(err);
                     alert('error');
@@ -64,7 +72,10 @@ function Cfr() {
                         />
                     </>
                     :
-                    <button className="btn btn-lg btn-dark ml-5" type='button' onClick={showCam}>카메라 보기</button>
+                    <>
+                        <h2>{resp}</h2>
+                        <button className="btn btn-lg btn-dark ml-5" type='button' onClick={showCam}>카메라 보기</button>
+                    </>
                 }
                 
             </form>
