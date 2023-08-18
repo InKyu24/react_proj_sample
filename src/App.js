@@ -16,6 +16,7 @@ import "popper.js";
 import Csr from './components/naver/Csr';
 import Cfr from './components/naver/Cfr';
 import AxiosTest from './components/AxiosTest';
+import Tts from './components/naver/Tts';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
                 <li className='nav-item'><Link className='nav-link' to='/summer'>써머노트 연습</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/post'>POST CODE</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/csr'>CSR(stt)</Link></li>
+                <li className='nav-item'><Link className='nav-link' to='/tts'>tts</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/cfr'>CFR</Link></li>
               </ul>
             </div>
@@ -54,6 +56,7 @@ function App() {
 
             <Route path='/csr' element={<Csr />} />
             <Route path='/cfr' element={<Cfr />} />
+            <Route path='/tts' element={<Tts />} />
             
             <Route path='*' element={<h1>404 Not Found</h1>} />
           </Routes>
