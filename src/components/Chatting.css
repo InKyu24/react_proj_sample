@@ -1,0 +1,22 @@
+.message {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+}
+
+.my-message {
+    background-color: #007bff;
+    color: white;
+    align-self: flex-end;
+}
+
+.other-message {
+    background-color: #f0f0f0;
+    color: #333;
+    align-self: flex-start;
+}
+
+.message-sender {
+    font-weight: bold;
+    margin-right: 5px;
+}

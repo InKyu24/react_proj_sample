@@ -10,6 +10,7 @@
     "axios": "^1.4.0",
     "bootstrap": "^4.6.2",
     "jquery": "^3.6.4",
+    "net": "^1.0.2",
     "popper.js": "^1.16.1",
     "react": "^18.2.0",
     "react-daum-postcode": "^3.1.3",
@@ -22,6 +23,8 @@
     "react-summernote": "^2.0.2",
     "react-webcam": "^7.1.1",
     "redux": "^4.2.1",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

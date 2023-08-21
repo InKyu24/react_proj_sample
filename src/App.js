@@ -17,6 +17,8 @@ import Csr from './components/naver/Csr';
 import Cfr from './components/naver/Cfr';
 import AxiosTest from './components/AxiosTest';
 import Tts from './components/naver/Tts';
+import Ocr from './components/naver/Ocr';
+import Chatting from './components/Chatting';
 
 function App() {
   return (
@@ -33,8 +35,10 @@ function App() {
                 <li className='nav-item'><Link className='nav-link' to='/summer'>써머노트 연습</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/post'>POST CODE</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/csr'>CSR(stt)</Link></li>
-                <li className='nav-item'><Link className='nav-link' to='/tts'>tts</Link></li>
+                <li className='nav-item'><Link className='nav-link' to='/tts'>TTS</Link></li>
                 <li className='nav-item'><Link className='nav-link' to='/cfr'>CFR</Link></li>
+                <li className='nav-item'><Link className='nav-link' to='/ocr'>OCR</Link></li>
+                <li className='nav-item'><Link className='nav-link' to='/chatting'>채팅방</Link></li>
               </ul>
             </div>
           </div>
@@ -57,6 +61,9 @@ function App() {
             <Route path='/csr' element={<Csr />} />
             <Route path='/cfr' element={<Cfr />} />
             <Route path='/tts' element={<Tts />} />
+            <Route path='/ocr' element={<Ocr />} />
+            
+            <Route path='/chatting' element={<Chatting />} />
             
             <Route path='*' element={<h1>404 Not Found</h1>} />
           </Routes>
